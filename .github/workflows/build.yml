@@ -2,7 +2,7 @@ name: Build & Publish Docker Images
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, ci-fix ]
   workflow_dispatch: {}
 
 permissions:
@@ -52,6 +52,7 @@ jobs:
           for v in "${JDK8[@]}"; do VERSIONS+=("\"${v}-jdk8\""); done
 
           JSON=$(printf '%s\n' "${VERSIONS[@]}" | jq -s .)
+          echo $JSON
           echo "matrix={\"version\":$JSON}" >> "$GITHUB_OUTPUT"
 
   build-and-push:
