@@ -1,8 +1,9 @@
 name: Build & Publish Docker Images
 
 on:
+  pull_request:
   push:
-    branches: [ main, ci-fix ]
+    branches: [ main ]
   workflow_dispatch: {}
 
 permissions:
@@ -56,6 +57,7 @@ jobs:
           echo "matrix={\"version\":$JSON}" >> "$GITHUB_OUTPUT"
 
   build-and-push:
+    if: github.ref == 'refs/heads/main'
     name: ${{ matrix.version }}
     runs-on: ubuntu-latest
     env:
@@ -87,7 +89,7 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-#          push: true
+          push: true
           build-args: |
             VERSION=${{ matrix.version }}
           tags: |
