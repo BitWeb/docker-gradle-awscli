@@ -57,6 +57,8 @@ jobs:
   build-and-push:
     name: ${{ matrix.version }}
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
     needs: [prepare-matrix]
 
     strategy:
@@ -93,9 +95,9 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Notify Slack on failure
-        if: ${{ failure() && secrets.SLACK_WEBHOOK_URL != '' }}
+        if: ${{ failure() && env.SLACK_WEBHOOK != '' }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK }}
           SLACK_MESSAGE: "${{ github.repository }} deploy to Docker Hub FAILED for ${{ matrix.version }}"
           SLACK_COLOR: "#FF0000"
