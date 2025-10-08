@@ -10,7 +10,7 @@ Maintained by: [Bitweb OÜ](https://bitweb.ee).
 
 # Supported tags
 
-Only Gradle versions supported by [Gradle](https://endoflife.date/gradle) are published.
+Only Gradle versions actively supported by [Gradle](https://endoflife.date/gradle) are published.
 
 Supported Java versions: 8, 11, 17, 21, 25.
 
@@ -36,37 +36,16 @@ It's recommended to specify only major version, this way you'll stay up-to-date 
 
 ## Deployment
 
-Deployment is done automatically to Docker Hub from master branch. Updates are automatically done every Sunday. 
+Deployment is done automatically to Docker Hub from main branch. Updates are made when new Gradle versions are published.
 
 New Gradle/JDK versions need to be added manually.
 
-Tags with patch versions will not be tolerated and provided.
-
 ## Adding a new version (tag)
 
-1. Create a new Pipeline step (in `bitbcuket-pipelines.yml`), that extends base step and specifies deployment name and 
-description. Deployment name must follow the following convention: _{gradle-version}-{jdk-version}_ Dots are not 
-allowed, so remove them: 7.3-jdk11 -> 73-jdk11
-2. Add the step to master list
-3. Update readme
-4. Create the deployment environment in production [Bitbucket Pipelines](https://bitbucket.org/bitwebou/infra-docker-gradle-awscli/admin/pipelines/deployment-settings)
-5. Add deployment variable with name _VERSION_ and value as tag name from base Gradle image
-6. Push and validate
-7. Update README in Docker Hub. Skip _Deployment_ and _Adding a new version_ headings.
+1. Add new version to respective JDK arrays in [build workflow](https://github.com/BitWeb/docker-gradle-awscli/blob/main/.github/workflows/build.yml)
+2. Update readme when needed (new Gradle major version or JDK)
+3. Create a PR with changes
 
 # License
 
-View license information for [Gradle](https://gradle.org/license/) and [aws-cli v2](https://github.com/aws/aws-cli/blob/develop/LICENSE.txt).
-
-As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc
-from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
-
-As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies 
-with any relevant licenses for all software contained within.
-
-THIS PROJECT IS NOT ENDORSED IN ANY WAY BY AMAZON OR GRADLE. 
-ALL TRADEMARKS AND COPYRIGHT BELONG TO THEIR RESPECTIVE OWNERS.
-
-# TODO
-
-* `latest` tag (needs separating gradle image and our image tag in deployment)
+See [LICENSE.MD](https://github.com/BitWeb/docker-gradle-awscli/blob/main/LICENSE.MD)
