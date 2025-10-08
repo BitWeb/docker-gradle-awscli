@@ -45,13 +45,13 @@ jobs:
           )
 
           VERSIONS=()
-          for v in "${JDK25[@]}"; do VERSIONS+=("\"${v}-jdk25\""); done
-          for v in "${JDK21[@]}"; do VERSIONS+=("\"${v}-jdk21\""); done
-          for v in "${JDK17[@]}"; do VERSIONS+=("\"${v}-jdk17\""); done
-          for v in "${JDK11[@]}"; do VERSIONS+=("\"${v}-jdk11\""); done
-          for v in "${JDK8[@]}"; do VERSIONS+=("\"${v}-jdk8\""); done
+          for v in "${JDK25[@]}"; do VERSIONS+=("${v}-jdk25"); done
+          for v in "${JDK21[@]}"; do VERSIONS+=("${v}-jdk21"); done
+          for v in "${JDK17[@]}"; do VERSIONS+=("${v}-jdk17"); done
+          for v in "${JDK11[@]}"; do VERSIONS+=("${v}-jdk11"); done
+          for v in "${JDK8[@]}"; do VERSIONS+=("${v}-jdk8"); done
 
-          JSON=$(printf '%s\n' "${VERSIONS[@]}" | jq -s .)
+          JSON=$(printf '%s\n' "${VERSIONS[@]}" | jq -R -s -c 'split("\n")[:-1]')
           echo $JSON
           echo "matrix={\"version\":$JSON}" >> "$GITHUB_OUTPUT"
 
