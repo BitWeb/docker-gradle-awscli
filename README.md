@@ -6,7 +6,7 @@ elsewhere as well.
 
 `amd64` and `arm64` architectures are supported at this moment.
 
-Maintained by: [Bitweb OÜ](https://bitweb.ee). Updates are published every Sunday.
+Maintained by: [Bitweb OÜ](https://bitweb.ee).
 
 # Supported tags
 
@@ -14,7 +14,7 @@ Only Gradle versions supported by [Gradle](https://endoflife.date/gradle) are pu
 
 Supported Java versions: 8, 11, 17, 21, 25.
 
-If the version you need is not listed, or you need different architecture, please contact Bitweb at [tech@bitweb.ee](mailto:tech@bitweb.ee).
+If the version you need is not available, or you need different architecture, please contact Bitweb at [tech@bitweb.ee](mailto:tech@bitweb.ee).
 
 # Usage in Bitbucket Pipelines
 
