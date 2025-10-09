@@ -1,6 +1,7 @@
 name: Build & Publish Docker Images
 
 on:
+  pull_request:
   push:
     branches: [ main ]
   workflow_dispatch: {}
@@ -28,33 +29,35 @@ jobs:
         shell: bash
         run: |
           # Define Gradle versions per JDK in compact arrays to avoid a huge YAML matrix
+          # Keep only major tag and latest patch version in that major. Gradle does not republish patch versions.
           JDK25=(
             9 9.1.0
           )
           JDK21=(
-            8 8.6 8.7 8.8 8.9 8.10 8.10.1 8.10.2 8.11.0 8.11.1 8.12.0 8.12.1 8.13 8.14.0 8.14.1 8.14.2 8.14.3 9 9.0.0 9.1.0
+            8 8.14.3 9 9.1.0
           )
           JDK17=(
-            8 8.0 8.1 8.2 8.3 8.4 8.5 8.6 8.7 8.8 8.9 8.10 8.10.1 8.10.2 8.11.0 8.11.1 8.12.0 8.12.1 8.13 8.14.0 8.14.1 8.14.2 8.14.3 9 9.0.0 9.1.0
+            8 8.14.3 9 9.1.0
           )
           JDK11=(
-            8 8.0 8.1 8.2 8.3 8.4 8.5 8.6 8.7 8.8 8.9 8.10 8.10.1 8.10.2 8.11.0 8.11.1 8.12.0 8.12.1 8.13 8.14.0 8.14.1 8.14.2 8.14.3
+            8 8.14.3
           )
           JDK8=(
-            8.14.3
+            8 8.14.3
           )
 
           VERSIONS=()
-          for v in "${JDK25[@]}"; do VERSIONS+=("\"${v}-jdk25\""); done
-          for v in "${JDK21[@]}"; do VERSIONS+=("\"${v}-jdk21\""); done
-          for v in "${JDK17[@]}"; do VERSIONS+=("\"${v}-jdk17\""); done
-          for v in "${JDK11[@]}"; do VERSIONS+=("\"${v}-jdk11\""); done
-          for v in "${JDK8[@]}"; do VERSIONS+=("\"${v}-jdk8\""); done
+          for v in "${JDK25[@]}"; do VERSIONS+=("${v}-jdk25"); done
+          for v in "${JDK21[@]}"; do VERSIONS+=("${v}-jdk21"); done
+          for v in "${JDK17[@]}"; do VERSIONS+=("${v}-jdk17"); done
+          for v in "${JDK11[@]}"; do VERSIONS+=("${v}-jdk11"); done
+          for v in "${JDK8[@]}"; do VERSIONS+=("${v}-jdk8"); done
 
-          JSON=$(printf '%s\n' "${VERSIONS[@]}" | jq -s .)
+          JSON=$(printf '%s\n' "${VERSIONS[@]}" | jq -R -s -c 'split("\n")[:-1]')
           echo "matrix={\"version\":$JSON}" >> "$GITHUB_OUTPUT"
 
   build-and-push:
+    if: github.ref == 'refs/heads/main'
     name: ${{ matrix.version }}
     runs-on: ubuntu-latest
     env:
@@ -86,7 +89,7 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-#          push: true
+          push: true
           build-args: |
             VERSION=${{ matrix.version }}
           tags: |
