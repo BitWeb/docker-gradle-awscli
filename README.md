@@ -14,7 +14,7 @@ Only Gradle versions actively supported by [Gradle](https://endoflife.date/gradl
 
 Supported Java versions: 8, 11, 17, 21, 25.
 
-If the version you need is not available, or you need different architecture, please contact Bitweb at [tech@bitweb.ee](mailto:tech@bitweb.ee).
+If the version you need is not available, or you need different architecture, please file an issue in this repository. Pull requests are also very welcome.
 
 # Usage in Bitbucket Pipelines
 
