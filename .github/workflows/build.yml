@@ -29,15 +29,15 @@ jobs:
         shell: bash
         run: |
           # Define Gradle versions per JDK in compact arrays to avoid a huge YAML matrix
-          # Keep only major tag and latest patch version in that major. Gradle does not republish patch versions.
+          # Keep only major tag and latest minor/patch version in that major. Gradle does not republish minor/patch versions.
           JDK25=(
-            9 9.1.0
+            9 9.2.0
           )
           JDK21=(
-            8 8.14.3 9 9.1.0
+            8 8.14.3 9 9.2.0
           )
           JDK17=(
-            8 8.14.3 9 9.1.0
+            8 8.14.3 9 9.2.0
           )
           JDK11=(
             8 8.14.3
